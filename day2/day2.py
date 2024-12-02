@@ -19,7 +19,6 @@ isDecreasing = False
 safeTotal = 0
 unsafeTotal = 0
 prevLevel = 0
-errorPerRep = 0
 ###
 # Read input file and strip, split and store into 2D array
 ###
@@ -33,40 +32,35 @@ for report in array:
         if  prevLevel == 0:
             prevLevel = int(level) # Store previous level
         elif ((int(level) - prevLevel) > 3):
+            unsafeTotal += 1
             print("Unsafe: Rapid Increase")
             isIncreasing = False
             isDecreasing = False
-            errorPerRep += 1
+            break
         elif ((int(level) - prevLevel) < -3):
+            unsafeTotal += 1
+            isIncreasing = False
+            isDecreasing = False
             print("Unsafe: Rapid Decrease")
-            isIncreasing = False
-            isDecreasing = False
-            errorPerRep += 1
+            break
         elif ((int(level) - prevLevel) == 0):
-            print("Unsafe: Equal")
-            errorPerRep += 1
-        elif (isIncreasing and isDecreasing):
-            print("Unsafe: Both Increasing and Decreasing")
+            unsafeTotal += 1
             isIncreasing = False
             isDecreasing = False
-            errorPerRep += 1
+            print("Unsafe: Equal")
+            break
         else: # Level is increasing or decreasing by 1, 2, or 3
-           if   int(level) - prevLevel <=  3 and (int(level) - prevLevel > 0):
+           if int(level) - prevLevel <= 3 and (int(level) - prevLevel > 0):
                isIncreasing = True
            elif int(level) - prevLevel >= -3 and (int(level) - prevLevel < 0):
                isDecreasing = True
-
+           if isIncreasing and isDecreasing:
+               unsafeTotal += 1
+               break
+        # print(level)
         prevLevel = int(level)  
     isIncreasing = False
     isDecreasing = False
-    print("Error per report is...", errorPerRep)
-    if errorPerRep > 1:
-        print("Unsafe: More than one Error")
-        unsafeTotal += 1
-    elif errorPerRep == 1:
-        print("Safe: one Error")
-        unsafeTotal -= 1
-    errorPerRep = 0
     prevLevel = 0
-print("Unsafe Total is...", unsafeTotal)
 print("Safe Total is...", len(array) - unsafeTotal)
+print("Fixable Safe total is...")
