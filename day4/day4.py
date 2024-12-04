@@ -1,0 +1,1 @@
+# AOC 2024 Day 4: Hopefully this isn't as painful as it looks
