@@ -1,4 +1,4 @@
-# AOC 2024 Day 4: Hopefully this isn't as painful as it looks
+# # AOC 2024 Day 4: Hopefully this isn't as painful as it looks
 
 import numpy as np
 import re
@@ -32,7 +32,7 @@ def HorizontalXMAS(input):
                 result += 1
     return result
 
-def DiagonalXMAS(input):
+def TopDiagonalXMAS(input):
     result = 0
     for i in range(len(input)):         # For every row
         for j in range(len(input[i])):  # For every column
@@ -47,12 +47,23 @@ def DiagonalXMAS(input):
                     left = input[i][j] + input[i+1][j-1] + input[i+2][j-2] + input[i+3][j-3]
                     if left == "XMAS":
                         result += 1
+    return result
 
-            if i <= len(input) +4 and j >= -4:
+def BottomDiagonalXMAS(input):
+    result = 0
+    for i in range(len(input)):         # For every row
+        for j in range(len(input[i])):  # For every column
+            if i <= len(input) -4 and j <= len(input[i]) - 4:
+                if j + 3 < len(input[i+1]) and j + 3 < len(input[i+2]) and j + 3 < len(input[i+3]):
+                    right = input[i][j] + input[i+1][j+1] + input[i+2][j+2] + input[i+3][j+3]
+                    if right == "SAMX":
+                        result += 1
+
+            if i <= len(input) -4 and j >= 3:
                 if j-3 > 0 and j-2 > 0 and j-1 > 0:
                     left = input[i][j] + input[i+1][j-1] + input[i+2][j-2] + input[i+3][j-3]
-                    if left == "XMAS":
+                    if left == "SAMX":
                         result += 1
     return result
 
-print (VerticalXMAS(lines) + HorizontalXMAS(lines) + DiagonalXMAS(lines))
+print (VerticalXMAS(lines) + HorizontalXMAS(lines) + TopDiagonalXMAS(lines) + BottomDiagonalXMAS(lines))
